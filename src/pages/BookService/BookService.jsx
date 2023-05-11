@@ -17,22 +17,23 @@ const BookService = () => {
         const date = form.date.value;
         const email = user?.email;
         // const name = form.name.value;
-        const order ={
+        const booking ={
             customerName: name,
             email,
             img,
             date,
+            service:title,
             service_id: _id,
             price: price
         }
-        console.log(order);
+        console.log(booking);
         //sending order to server
         fetch('http://localhost:5000/bookings',{
             method: 'POST',
             headers: {
                 'content-type':'application/json'
             },
-            body: JSON.stringify(order)
+            body: JSON.stringify(booking)
 
         })
         .then(res =>res.json())
