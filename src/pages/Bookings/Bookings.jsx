@@ -16,6 +16,31 @@ const Bookings = () => {
             .then(res => res.json())
             .then(data => setBookings(data))
     }, [])
+
+    //delete a booking
+    const handleDelete = (id) =>{
+        //we should use sweet alert here
+        const proceed = confirm('Are you sure you want to delete')
+        if(proceed){
+            fetch(`http://localhost:5000/bookings/${id}`,{
+                method: 'DELETE'
+            })
+            .then(res=>res.json())
+            .then(data =>{
+                console.log(data);
+                 if(data.deletedCount>0){
+                    alert('Deleted successfully')
+                   const remainingBookings =  bookings.filter(booking => booking._id !== id);
+                    setBookings(remainingBookings)
+                }
+            })
+        }
+    }
+
+
+
+
+
     return (
         <div>
             <h2 className='text-5xl'>Your bookings: {bookings.length}</h2>
@@ -31,7 +56,7 @@ const Bookings = () => {
                                 </label>
                             </th>
 
-                            
+
                             <th>Image</th>
                             <th>Service</th>
                             <th>Date</th>
@@ -46,6 +71,9 @@ const Bookings = () => {
                             bookings.map(booking => <BookingRow
                                 key={booking._id}
                                 booking={booking}
+                                bookings={bookings}
+                                setBookings={setBookings}
+                                handleDelete={handleDelete}
                             ></BookingRow>)
                         }
 
