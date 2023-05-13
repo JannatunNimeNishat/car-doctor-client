@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import img from '../../assets/images/login/login.svg'
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../providers/AuthProvider';
+import SocialLogin from '../Shared/SocialLogin/SocialLogin';
 const Login = () => {
     const { signIn } = useContext(AuthContext);
 
@@ -21,9 +22,11 @@ const Login = () => {
             .then(result => {
                 const user = result.user;
                 console.log(user);
-                
+                navigate(from, {replace:true})
 
-                                //jwt
+                               
+                               //old     
+                              /*   //jwt
                                 const loggedUser = {
                                     email: user.email
                                 }
@@ -41,9 +44,9 @@ const Login = () => {
                                         //save the access token to local storage 
                                         //Warning: Local storage is not the best (second best) to store access token for security.
                                         localStorage.setItem('car-access-token', data.token)
-                                        
+
                                         navigate(from, {replace:true})
-                                    })
+                                    }) */
 
             })
             .catch(error => {
@@ -86,6 +89,7 @@ const Login = () => {
                             </div>
                         </form>
                         <p className='my-4 text-center'>New to Car Doctors <Link className='text-orange-600 font-bold' to='/signUp'>Sign Up</Link></p>
+                        <SocialLogin></SocialLogin>
                     </div>
                 </div>
             </div>

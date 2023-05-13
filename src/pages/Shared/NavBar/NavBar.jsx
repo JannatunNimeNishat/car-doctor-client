@@ -11,7 +11,7 @@ const NavBar = () => {
             .then(() => {
                 //JWT
                 //remove the access token from local storage
-                localStorage.removeItem('car-access-token')
+                // localStorage.removeItem('car-access-token')
             })
             .catch(error => {
                 console.log(error.message);
