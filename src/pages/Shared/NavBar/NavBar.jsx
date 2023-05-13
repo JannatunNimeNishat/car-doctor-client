@@ -7,7 +7,18 @@ const NavBar = () => {
     const { user, logOut } = useContext(AuthContext);
     const handleLogOut = () => {
 
-        logOut();
+        logOut()
+            .then(() => {
+                //JWT
+                //remove the access token from local storage
+                localStorage.removeItem('car-access-token')
+            })
+            .catch(error => {
+                console.log(error.message);
+            })
+
+
+
     }
 
     const navItems = <>
@@ -16,8 +27,8 @@ const NavBar = () => {
         {
             user?.email ?
                 <>
-                <li><Link to='/bookings'>My Bookings</Link></li>
-                <li><button onClick={handleLogOut}>Log Out</button></li>
+                    <li><Link to='/bookings'>My Bookings</Link></li>
+                    <li><button onClick={handleLogOut}>Log Out</button></li>
                 </>
                 :
                 <li><Link to='/login'>login</Link></li>
