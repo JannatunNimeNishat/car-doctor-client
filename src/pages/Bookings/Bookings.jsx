@@ -1,21 +1,39 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../providers/AuthProvider';
 import BookingRow from './BookingRow';
+import { useNavigate } from 'react-router-dom';
 
 const Bookings = () => {
     const { user, loading } = useContext(AuthContext)
     const [bookings, setBookings] = useState([]);
 
-    /*  if(loading){
-         return <h3>Loading</h3>
-     } */
+    //if access token is not valid or expired
+    const navigate = useNavigate();
 
+
+    //get specific user bookings
     const url = `http://localhost:5000/bookings?email=${user?.email}`
     useEffect(() => {
-        fetch(url)
+        fetch(url, {
+            method: 'GET',
+            headers:{
+                authorization: `Bearer ${localStorage.getItem('car-access-token')}`
+            }
+        })
             .then(res => res.json())
-            .then(data => setBookings(data))
-    }, [url])
+            .then(data => {
+                //if access token is not valid or expired
+                if(!data.error){
+                    setBookings(data)
+                }
+                else{
+                    //logout and then navigate
+                    navigate('/login')
+                }
+            })
+    }, [url,navigate])
+
+
 
     //delete a booking
     const handleDelete = (id) =>{
@@ -37,7 +55,8 @@ const Bookings = () => {
         }
     }
 
-    //update
+
+    //update confirm booking
     const handleBookingConfirm = (id) =>{
        
         fetch(`http://localhost:5000/bookings/${id}`,{
